@@ -19,6 +19,7 @@ namespace HitBoxing
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D blockTex;
+        SamplerState wrapUV;
 
         public Game1()
         {
@@ -38,6 +39,9 @@ namespace HitBoxing
         {
             // TODO: Add your initialization logic here
             blockTex = Content.Load<Texture2D>("block");
+            wrapUV = new SamplerState();
+            wrapUV.AddressU = TextureAddressMode.Wrap;
+            wrapUV.AddressV = TextureAddressMode.Wrap;
             base.Initialize();
         }
 
@@ -85,8 +89,10 @@ namespace HitBoxing
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin();
-            spriteBatch.Draw(blockTex, new Vector2(100, 100), Color.White);
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.Opaque, wrapUV, null, null);
+
+            Rectangle src = new Rectangle(0, 0, 300, 300);
+            spriteBatch.Draw(blockTex, new Vector2(100, 100), src, Color.White);
             spriteBatch.End();
             // TODO: Add your drawing code here
 
