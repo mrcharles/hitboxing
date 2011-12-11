@@ -93,6 +93,9 @@ namespace HitBoxing
 
             Rectangle src = new Rectangle(0, 0, 300, 300);
             spriteBatch.Draw(blockTex, new Vector2(100, 100), src, Color.White);
+            spriteBatch.Draw(blockTex, new Vector2(0, 0), Color.Red);
+
+            spriteBatch.Draw(blockTex, new Rectangle(200, 200, 400, 400), blockTex.Bounds, Color.Gainsboro);
             spriteBatch.End();
             // TODO: Add your drawing code here
 
