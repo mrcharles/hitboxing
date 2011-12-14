@@ -14,7 +14,7 @@ namespace HitBoxing
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Microsoft.Xna.Framework.Game
+    public class HitBoxing : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -22,7 +22,7 @@ namespace HitBoxing
         SamplerState wrapUV;
         Camera cam;
 
-        public Game1()
+        public HitBoxing()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferHeight = 720;
