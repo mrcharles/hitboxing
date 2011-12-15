@@ -21,6 +21,7 @@ namespace HitBoxing
         Texture2D blockTex;
         SamplerState wrapUV;
         Camera cam;
+        InputHelper input;
 
         public HitBoxing()
         {
@@ -44,6 +45,9 @@ namespace HitBoxing
             wrapUV = new SamplerState();
             wrapUV.AddressU = TextureAddressMode.Wrap;
             wrapUV.AddressV = TextureAddressMode.Wrap;
+
+            input = new InputHelper();
+
             base.Initialize();
         }
 
@@ -76,8 +80,10 @@ namespace HitBoxing
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (input.JustReleased(Keys.Escape))
                 this.Exit();
+
+            input.Update();
 
             // TODO: Add your update logic here
 
