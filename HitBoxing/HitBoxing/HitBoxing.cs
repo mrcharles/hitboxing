@@ -22,6 +22,8 @@ namespace HitBoxing
         SamplerState wrapUV;
         Camera cam;
         InputHelper input;
+        InputHelper.PadHelper pad;
+        
 
         public HitBoxing()
         {
@@ -47,6 +49,10 @@ namespace HitBoxing
             wrapUV.AddressV = TextureAddressMode.Wrap;
 
             input = new InputHelper();
+
+
+
+            pad = input.AcquireNewPad();
 
             base.Initialize();
         }
@@ -79,11 +85,12 @@ namespace HitBoxing
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            input.Update();
             // Allows the game to exit
-            if (input.JustReleased(Keys.Escape))
+            //if (input.JustReleased(Keys.Escape))
+            if( pad.JustReleased(Buttons.A) )
                 this.Exit();
 
-            input.Update();
 
             // TODO: Add your update logic here
 

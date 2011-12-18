@@ -19,12 +19,22 @@ namespace HitBoxing
             public PadHelper(PlayerIndex index)
             {
                 Index = index;
-                Update();
+                OldState = NewState = GamePad.GetState(Index);
+            }
+
+            public bool IsConnected()
+            {
+                if(OldState == null)
+                    throw new Exception("No state to test.");
+
+                return OldState.IsConnected;
+
             }
 
             public void Update()
             {
-                OldState = NewState = GamePad.GetState(Index);
+                OldState = NewState;
+                NewState = GamePad.GetState(Index);
             }
 
             public bool Pressed(Buttons b)
@@ -68,6 +78,33 @@ namespace HitBoxing
             OldKeyState = NewKeyState;
             NewKeyState = Keyboard.GetState();
         }
+
+        public PadHelper AcquireNewPad()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (!PadAssigned[i] && Pads[i].IsConnected())
+                {
+                    PadAssigned[i] = true;
+                    return Pads[i];
+                }
+            }
+            throw new Exception("No pad available.");
+        }
+
+        public void ReleasePad(PadHelper pad)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (Pads[i].Index == pad.Index)
+                {
+                    PadAssigned[i] = false;
+                    return;
+                }
+            }
+
+        }
+
 
         public bool JustPressed(Keys k)
         {
