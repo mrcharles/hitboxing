@@ -49,7 +49,11 @@ namespace HitBoxing
             input = new InputHelper();
             pad = input.AcquireNewPad();
             cam = new CamManual(pad);
+            cam.Viewport = new Vector2(1280, 720);
             cam.Position = new Vector2(0, -360 + GroundOffset);
+            int width = LevelWidth * BaseUnitSize;
+            int height = LevelHeight * BaseUnitSize;
+            cam.Bounds = new Rectangle(-width / 2, -height, width, height + GroundOffset);
             wrapUV = new SamplerState();
             wrapUV.AddressU = TextureAddressMode.Wrap;
             wrapUV.AddressV = TextureAddressMode.Wrap;
@@ -90,8 +94,8 @@ namespace HitBoxing
         {
             input.Update();
             // Allows the game to exit
-            //if (input.JustReleased(Keys.Escape))
-            if( pad.JustReleased(Buttons.A) )
+            if (input.JustPressed(Keys.Escape))
+            //if( pad.JustReleased(Buttons.A) )
                 this.Exit();
 
 
