@@ -14,7 +14,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace HitBoxing
 {
-    class Camera
+    public class Camera
     {
         private Vector2 pos;
         public float Zoom;
@@ -37,12 +37,15 @@ namespace HitBoxing
             pos = new Vector2(0,0);
         }
 
+        public virtual void Update()
+        {
+            transform = Matrix.CreateTranslation(new Vector3(-pos.X, -pos.Y, 0)) *
+                        Matrix.CreateScale(new Vector3(Zoom, Zoom, 1)) *
+                        Matrix.CreateTranslation(new Vector3(1280 * 0.5f, 720 * 0.5f, 0));
+        }
+
         public Matrix Transform()
         {
-            transform =       // Thanks to o KB o for this solution
-              Matrix.CreateTranslation(new Vector3(-pos.X, -pos.Y, 0)) *
-                                         Matrix.CreateScale(new Vector3(Zoom, Zoom, 1)) *
-                                         Matrix.CreateTranslation(new Vector3(1280 * 0.5f, 720 * 0.5f, 0));
             return transform;
         }
     }

@@ -23,7 +23,10 @@ namespace HitBoxing
         Camera cam;
         InputHelper input;
         InputHelper.PadHelper pad;
-        
+        int BaseUnitSize = 64;
+        int LevelWidth = 50;
+        int LevelHeight = 10;
+        int GroundOffset = 100;
 
         public HitBoxing()
         {
@@ -43,16 +46,16 @@ namespace HitBoxing
         {
             // TODO: Add your initialization logic here
             blockTex = Content.Load<Texture2D>("block");
-            cam = new Camera();
+            input = new InputHelper();
+            pad = input.AcquireNewPad();
+            cam = new CamManual(pad);
+            cam.Position = new Vector2(0, -360 + GroundOffset);
             wrapUV = new SamplerState();
             wrapUV.AddressU = TextureAddressMode.Wrap;
             wrapUV.AddressV = TextureAddressMode.Wrap;
 
-            input = new InputHelper();
 
 
-
-            pad = input.AcquireNewPad();
 
             base.Initialize();
         }
@@ -93,6 +96,7 @@ namespace HitBoxing
 
 
             // TODO: Add your update logic here
+            cam.Update();
 
             base.Update(gameTime);
         }
@@ -106,11 +110,11 @@ namespace HitBoxing
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.Opaque, wrapUV, null, null, null, cam.Transform());
 
-            Rectangle src = new Rectangle(0, 0, 300, 300);
-            spriteBatch.Draw(blockTex, new Vector2(100, 100), src, Color.White);
-            spriteBatch.Draw(blockTex, new Vector2(0, 0), Color.Red);
+            Rectangle src = new Rectangle(0, 0, LevelWidth * BaseUnitSize, LevelHeight * BaseUnitSize);
+            spriteBatch.Draw(blockTex, new Vector2(-LevelWidth * BaseUnitSize / 2, -LevelHeight * BaseUnitSize), src, Color.White);
+            //spriteBatch.Draw(blockTex, new Vector2(0, 0), Color.Red);
 
-            spriteBatch.Draw(blockTex, new Rectangle(200, 200, 400, 400), blockTex.Bounds, Color.Gainsboro);
+            //spriteBatch.Draw(blockTex, new Rectangle(200, 200, 400, 400), blockTex.Bounds, Color.Gainsboro);
             spriteBatch.End();
             // TODO: Add your drawing code here
 

@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace HitBoxing
 {
-    class InputHelper
+    public class InputHelper
     {
         public class PadHelper
         {
@@ -35,6 +35,16 @@ namespace HitBoxing
             {
                 OldState = NewState;
                 NewState = GamePad.GetState(Index);
+            }
+
+            public Vector2 RightStick()
+            {
+                return NewState.ThumbSticks.Right;
+            }
+
+            public Vector2 LeftStick()
+            {
+                return NewState.ThumbSticks.Left;
             }
 
             public bool Pressed(Buttons b)
