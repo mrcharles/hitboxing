@@ -25,7 +25,7 @@ namespace HitBoxing
         InputHelper.PadHelper pad;
         int BaseUnitSize = 64;
         int LevelWidth = 50;
-        int LevelHeight = 10;
+        int LevelHeight = 15;
         int GroundOffset = 100;
 
         public HitBoxing()

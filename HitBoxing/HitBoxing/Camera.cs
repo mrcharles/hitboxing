@@ -17,7 +17,19 @@ namespace HitBoxing
     public class Camera
     {
         private Vector2 pos;
-        public float Zoom;
+        float zoom;
+        public float Zoom
+        {
+            get{
+                return zoom;
+            }
+            set{
+                float minzoom = Viewport.Y / Bounds.Height; 
+
+
+                zoom = Math.Min( Math.Max( value, minzoom ), 10.0f );
+            }
+        }
         Matrix transform;
         public Rectangle Bounds;
         public Vector2 Viewport;
@@ -35,21 +47,21 @@ namespace HitBoxing
 
         public Camera()
         {
-            Zoom = 1.0f;
+            zoom = 1.0f;
             pos = new Vector2(0,0);
         }
 
-        Vector2 GetClampedPos()
+        public Vector2 GetClampedPos()
         {
             if (Bounds.IsEmpty)
                 return pos;
 
             Vector2 ret = pos;
 
-            float minx = Bounds.Left + Viewport.X / 2;
-            float maxx = Bounds.Right - Viewport.X / 2;
-            float miny = Bounds.Top + Viewport.Y / 2;
-            float maxy = Bounds.Bottom - Viewport.Y / 2;
+            float minx = Bounds.Left + (Viewport.X / 2) / zoom;
+            float maxx = Bounds.Right - (Viewport.X / 2) / zoom;
+            float miny = Bounds.Top + (Viewport.Y / 2) / zoom;
+            float maxy = Bounds.Bottom - (Viewport.Y / 2) / zoom;
 
             ret.X = Math.Min(Math.Max(pos.X, minx), maxx);
             ret.Y = Math.Min(Math.Max(pos.Y, miny), maxy);
@@ -64,6 +76,7 @@ namespace HitBoxing
             transform = Matrix.CreateTranslation(new Vector3(-position.X, -position.Y, 0)) *
                         Matrix.CreateScale(new Vector3(Zoom, Zoom, 1)) *
                         Matrix.CreateTranslation(new Vector3(Viewport.X * 0.5f, Viewport.Y * 0.5f, 0));
+
         }
 
         public Matrix Transform()
