@@ -57,6 +57,7 @@ namespace HitBoxing
             wrapUV = new SamplerState();
             wrapUV.AddressU = TextureAddressMode.Wrap;
             wrapUV.AddressV = TextureAddressMode.Wrap;
+            wrapUV.Filter = TextureFilter.Point;
 
 
 
