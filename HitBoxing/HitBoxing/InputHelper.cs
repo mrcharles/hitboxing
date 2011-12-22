@@ -115,6 +115,10 @@ namespace HitBoxing
 
         }
 
+        public bool Pressed(Keys k)
+        {
+            return NewKeyState.IsKeyDown(k);
+        }
 
         public bool JustPressed(Keys k)
         {

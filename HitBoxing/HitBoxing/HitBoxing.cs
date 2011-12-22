@@ -47,8 +47,19 @@ namespace HitBoxing
             // TODO: Add your initialization logic here
             blockTex = Content.Load<Texture2D>("block");
             input = new InputHelper();
-            pad = input.AcquireNewPad();
-            cam = new CamManual(pad);
+            
+            try
+            {
+                pad = input.AcquireNewPad();
+                cam = new CamManual(pad);
+            }
+            catch(Exception e)
+            {
+                cam = new CamKeyboard(input);
+            }
+
+            //cam = new CamManual(pad);
+            //cam = new CamKeyboard(input);
             cam.Viewport = new Vector2(1280, 720);
             cam.Position = new Vector2(0, -360 + GroundOffset);
             int width = LevelWidth * BaseUnitSize;
