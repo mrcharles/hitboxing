@@ -24,7 +24,7 @@ namespace HitBoxing
                 return zoom;
             }
             set{
-                float minzoom = Viewport.Y / Bounds.Height; 
+				float minzoom = !Bounds.IsEmpty ? Viewport.Y / Bounds.Height : 0.05f; 
 
 
                 zoom = Math.Min( Math.Max( value, minzoom ), 10.0f );

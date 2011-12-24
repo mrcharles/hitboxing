@@ -114,6 +114,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="HitBoxing.cs" />
+    <Compile Include="TerrainMap.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

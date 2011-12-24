@@ -28,6 +28,10 @@ namespace HitBoxing
         int LevelHeight = 15;
         int GroundOffset = 100;
 
+		TerrainMap map;
+		int terrainindex = 0;
+		Texture2D terrain;
+
         public HitBoxing()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -61,17 +65,19 @@ namespace HitBoxing
             //cam = new CamManual(pad);
             //cam = new CamKeyboard(input);
             cam.Viewport = new Vector2(1280, 720);
-            cam.Position = new Vector2(0, -360 + GroundOffset);
+            cam.Position = new Vector2(0, 0);//-360 + GroundOffset);
             int width = LevelWidth * BaseUnitSize;
             int height = LevelHeight * BaseUnitSize;
-            cam.Bounds = new Rectangle(-width / 2, -height, width, height + GroundOffset);
+            //cam.Bounds = new Rectangle(-width / 2, -height, width, height + GroundOffset);
             wrapUV = new SamplerState();
             wrapUV.AddressU = TextureAddressMode.Wrap;
             wrapUV.AddressV = TextureAddressMode.Wrap;
             wrapUV.Filter = TextureFilter.Point;
 
+			map = new TerrainMap(128, 128, 16);
 
-
+			map.CreateTextures(GraphicsDevice);
+			terrain = map.GetTextureFromIndex(terrainindex);
 
             base.Initialize();
         }
@@ -110,6 +116,18 @@ namespace HitBoxing
             //if( pad.JustReleased(Buttons.A) )
                 this.Exit();
 
+			if (input.JustPressed(Keys.Z))
+			{
+				terrainindex--;
+				if (terrainindex < 0)
+					terrainindex = 0;
+				terrain = map.GetTextureFromIndex(terrainindex);
+			}
+			if (input.JustPressed(Keys.X))
+			{
+				terrainindex++;
+				terrain = map.GetTextureFromIndex(terrainindex);
+			}
 
             // TODO: Add your update logic here
             cam.Update();
@@ -126,9 +144,11 @@ namespace HitBoxing
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.Opaque, wrapUV, null, null, null, cam.Transform());
 
-            Rectangle src = new Rectangle(0, 0, LevelWidth * BaseUnitSize, LevelHeight * BaseUnitSize);
-            spriteBatch.Draw(blockTex, new Vector2(-LevelWidth * BaseUnitSize / 2, -LevelHeight * BaseUnitSize), src, Color.White);
-            //spriteBatch.Draw(blockTex, new Vector2(0, 0), Color.Red);
+            //Rectangle src = new Rectangle(0, 0, LevelWidth * BaseUnitSize, LevelHeight * BaseUnitSize);
+            //spriteBatch.Draw(blockTex, new Vector2(-LevelWidth * BaseUnitSize / 2, -LevelHeight * BaseUnitSize), src, Color.White);
+            spriteBatch.Draw(terrain, new Vector2(0, 0), Color.White);
+
+			
 
             //spriteBatch.Draw(blockTex, new Rectangle(200, 200, 400, 400), blockTex.Bounds, Color.Gainsboro);
             spriteBatch.End();
