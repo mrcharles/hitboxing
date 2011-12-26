@@ -32,8 +32,10 @@ namespace HitBoxing
 		int terrainindex = 0;
 		Texture2D terrain;
 
-		Slider sliders;
-		Slider.IntSlider intslider;
+		int mode = 0;
+
+		SliderGroup sliders;
+		SliderGroup.IntSlider intslider;
 
         public HitBoxing()
         {
@@ -55,9 +57,11 @@ namespace HitBoxing
             blockTex = Content.Load<Texture2D>("block");
             input = new InputHelper();
             
-			sliders = new Slider(blockTex, new Vector2(20,20));
-			intslider = new Slider.IntSlider(1, 0, 10, 5, SliderChanged);
+			sliders = new SliderGroup(blockTex, new Vector2(20,20));
+			intslider = new SliderGroup.IntSlider(1, 0, 10, 5, SliderChanged);
 			sliders.RegisterValue(intslider);
+
+			sliders.SelectSlider(0);
 
 
             try
@@ -154,11 +158,51 @@ namespace HitBoxing
 				SetupTerrain();
 			}
 
-            // TODO: Add your update logic here
-            cam.Update();
+			if (input.JustPressed(Keys.Q))
+			{
+				if (mode == 0)
+					mode = 1;
+				else mode = 0;
+			}
 
+			if (mode == 0)
+			{
+				UpdateCam(gameTime);
+
+			}
+			else 
+			{
+				UpdateSliders(gameTime);
+			}
+				
             base.Update(gameTime);
         }
+		void UpdateCam(GameTime gameTime)
+		{
+			// TODO: Add your update logic here
+			cam.Update();
+		
+		}
+
+		void UpdateSliders(GameTime gameTime)
+		{
+			if (input.JustPressed(Keys.Down))
+			{
+				sliders.SelectNext();
+			}
+			if (input.JustPressed(Keys.Up))
+			{
+				sliders.SelectPrev();
+			}
+			if (input.JustPressed(Keys.Right))
+			{
+				sliders.AdjustRight();
+			}
+			if (input.JustPressed(Keys.Left))
+			{
+				sliders.AdjustLeft();
+			}
+		}
 
         /// <summary>
         /// This is called when the game should draw itself.

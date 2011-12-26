@@ -114,7 +114,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="HitBoxing.cs" />
-    <Compile Include="Slider.cs" />
+    <Compile Include="SliderGroup.cs" />
     <Compile Include="TerrainMap.cs" />
   </ItemGroup>
   <ItemGroup>
