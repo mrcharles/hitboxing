@@ -32,6 +32,9 @@ namespace HitBoxing
 		int terrainindex = 0;
 		Texture2D terrain;
 
+		Slider sliders;
+		Slider.IntSlider intslider;
+
         public HitBoxing()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -52,6 +55,11 @@ namespace HitBoxing
             blockTex = Content.Load<Texture2D>("block");
             input = new InputHelper();
             
+			sliders = new Slider(blockTex, new Vector2(20,20));
+			intslider = new Slider.IntSlider(1, 0, 10, 5, SliderChanged);
+			sliders.RegisterValue(intslider);
+
+
             try
             {
                 pad = input.AcquireNewPad();
@@ -74,13 +82,25 @@ namespace HitBoxing
             wrapUV.AddressV = TextureAddressMode.Wrap;
             wrapUV.Filter = TextureFilter.Point;
 
-			map = new TerrainMap(128, 128, 16);
-
-			map.CreateTextures(GraphicsDevice);
-			terrain = map.GetTextureFromIndex(terrainindex);
+			SetupTerrain();
 
             base.Initialize();
         }
+
+		void SetupTerrain()
+		{
+			map = new TerrainMap(128, 128, 16);
+
+			terrainindex = 0;
+			map.CreateTextures(GraphicsDevice);
+			terrain = map.GetTextureFromIndex(terrainindex);
+		
+		}
+
+		void SliderChanged(object slider)
+		{ 
+		
+		}
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -129,6 +149,11 @@ namespace HitBoxing
 				terrain = map.GetTextureFromIndex(terrainindex);
 			}
 
+			if (input.JustPressed(Keys.A))
+			{
+				SetupTerrain();
+			}
+
             // TODO: Add your update logic here
             cam.Update();
 
@@ -153,6 +178,8 @@ namespace HitBoxing
             //spriteBatch.Draw(blockTex, new Rectangle(200, 200, 400, 400), blockTex.Bounds, Color.Gainsboro);
             spriteBatch.End();
             // TODO: Add your drawing code here
+
+			sliders.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }

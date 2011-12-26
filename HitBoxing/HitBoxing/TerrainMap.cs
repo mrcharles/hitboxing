@@ -198,7 +198,7 @@ namespace HitBoxing
 		/// <param name="width">Width of the map in tiles. must be power of 2</param>
 		/// <param name="height">Height of the map in tiles. must be power of 2</param>
 		/// <param name="featuresize">Controls the density of features.</param>
-		public TerrainMap(int width, int height, int _featuresize)
+		public TerrainMap(int width, int height, int _featuresize, double initialscale = 1.0, double magic = 0.0, double scalemod = 0.5, double scalemodmod = 1.0)
 		{
 			seed = (int)DateTime.Now.Ticks;
 			featuresize = _featuresize;
@@ -227,7 +227,8 @@ namespace HitBoxing
 			int samplesize = featuresize;
 
 			ValueContainer cur = init;
-			double scale = 1.0f;
+			double scale = initialscale;
+
 			while (samplesize > 1)
 			{
 				//push our current map.
@@ -236,7 +237,8 @@ namespace HitBoxing
 				cur = DiamondSquare(cur, samplesize, scale);
 
 				samplesize /= 2;
-				scale *= 0.5;
+				scale *= scalemod + magic;
+				scalemod *= scalemodmod;
 			}
 			containers.Add(cur);
 
