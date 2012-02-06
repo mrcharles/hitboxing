@@ -35,7 +35,10 @@ namespace HitBoxing
 		int mode = 0;
 
 		SliderGroup sliders;
-		SliderGroup.IntSlider intslider;
+		SliderGroup.DoubleSlider initscaleslider;
+		SliderGroup.DoubleSlider magicslider;
+		SliderGroup.DoubleSlider scalemodslider;
+		SliderGroup.DoubleSlider scalemodmodslider;
 
         public HitBoxing()
         {
@@ -58,8 +61,14 @@ namespace HitBoxing
             input = new InputHelper();
             
 			sliders = new SliderGroup(blockTex, new Vector2(20,20));
-			intslider = new SliderGroup.IntSlider(1, 0, 10, 5, SliderChanged);
-			sliders.RegisterValue(intslider);
+			initscaleslider = new SliderGroup.DoubleSlider(0.1, 0.1, 1.9, 1.0, SliderChanged);
+			sliders.RegisterValue(initscaleslider);
+			magicslider = new SliderGroup.DoubleSlider(0.1, -1.0, 1.0, 0.0, SliderChanged);
+			sliders.RegisterValue(magicslider);
+			scalemodslider = new SliderGroup.DoubleSlider(0.1, 0.1, 1.0, 0.5, SliderChanged);
+			sliders.RegisterValue(scalemodslider);
+			scalemodmodslider = new SliderGroup.DoubleSlider(0.1, 0.1, 1.9, 1.0, SliderChanged);
+			sliders.RegisterValue(scalemodmodslider);
 
 			sliders.SelectSlider(0);
 
@@ -93,17 +102,17 @@ namespace HitBoxing
 
 		void SetupTerrain()
 		{
-			map = new TerrainMap(128, 128, 16);
+			map = new TerrainMap(256, 256, 32, 0, initscaleslider.Value(), magicslider.Value(), scalemodslider.Value(), scalemodmodslider.Value());
 
-			terrainindex = 0;
 			map.CreateTextures(GraphicsDevice);
+			terrainindex = map.GetMaxIndex();
 			terrain = map.GetTextureFromIndex(terrainindex);
 		
 		}
 
 		void SliderChanged(object slider)
-		{ 
-		
+		{
+			SetupTerrain();
 		}
 
         /// <summary>

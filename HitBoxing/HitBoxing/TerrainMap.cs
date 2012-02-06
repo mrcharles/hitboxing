@@ -45,7 +45,7 @@ namespace HitBoxing
 				h = height;
 
 
-				values = new Double[w * h];
+				values = new double[w * h];
 			}
 			public void Init(double v)
 			{
@@ -73,6 +73,8 @@ namespace HitBoxing
 			Color ColorFromRange(Range range, double value)
 			{ 
 				//get our normalized lerp value
+				if(value == 0.0f)
+					return Color.AntiqueWhite;
 				
 
 				return Color.Lerp(Color.Black, Color.White, (float)range.Normalize(value));
@@ -115,11 +117,11 @@ namespace HitBoxing
 			{
 				int hs = size / 2;
 
-				// a        b
+				// a       b
 				//
 				//	   x
 				//
-				// c		d
+				// c       d
 
 				double a = sample(x - hs, y - hs);
 				double b = sample(x + hs, y - hs);
@@ -133,6 +135,12 @@ namespace HitBoxing
 			public void sampleDiamond(int x, int y, int size, double value)
 			{
 				int hs = size / 2;
+
+				//    c
+				//
+				//a   x	  b
+				//
+				//    d
 
 				double a = sample(x - hs, y);
 				double b = sample(x + hs, y);
@@ -198,9 +206,12 @@ namespace HitBoxing
 		/// <param name="width">Width of the map in tiles. must be power of 2</param>
 		/// <param name="height">Height of the map in tiles. must be power of 2</param>
 		/// <param name="featuresize">Controls the density of features.</param>
-		public TerrainMap(int width, int height, int _featuresize, double initialscale = 1.0, double magic = 0.0, double scalemod = 0.5, double scalemodmod = 1.0)
+		public TerrainMap(int width, int height, int _featuresize, int _seed = -1, double initialscale = 1.0, double magic = 0.0, double scalemod = 0.5, double scalemodmod = 1.0)
 		{
-			seed = (int)DateTime.Now.Ticks;
+			if (_seed == -1)
+				seed = (int)DateTime.Now.Ticks;
+			else 
+				seed = _seed;
 			featuresize = _featuresize;
 
 			random = new Random(seed);
@@ -280,9 +291,13 @@ namespace HitBoxing
 
 		}
 
-		public Texture2D GetTextureFromIndex( int i)
+		public int GetMaxIndex()
 		{
+			return textures.Count - 1;
+		}
 
+		public Texture2D GetTextureFromIndex( int i )
+		{
 			return textures.ElementAt(i % textures.Count);
 
 		}

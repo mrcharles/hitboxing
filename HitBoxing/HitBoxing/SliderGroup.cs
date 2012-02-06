@@ -65,6 +65,11 @@ namespace HitBoxing
 				state.OnChanged = changedDelegate;
 			}
 
+			public double Value()
+			{
+				return state.Value;
+			}
+
 			float ISlider.GetPercentage()
 			{
 				return (float)((state.Value - state.Min) / (state.Max - state.Min));
