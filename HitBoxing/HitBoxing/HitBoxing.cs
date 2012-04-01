@@ -28,10 +28,6 @@ namespace HitBoxing
         int LevelHeight = 15;
         int GroundOffset = 100;
 
-		TerrainMap map;
-		int terrainindex = 0;
-		Texture2D terrain;
-
 		int mode = 0;
 
 		SliderGroup sliders;
@@ -89,30 +85,18 @@ namespace HitBoxing
             cam.Position = new Vector2(0, 0);//-360 + GroundOffset);
             int width = LevelWidth * BaseUnitSize;
             int height = LevelHeight * BaseUnitSize;
-            //cam.Bounds = new Rectangle(-width / 2, -height, width, height + GroundOffset);
+            cam.Bounds = new Rectangle(-width / 2, -height, width, height + GroundOffset);
             wrapUV = new SamplerState();
             wrapUV.AddressU = TextureAddressMode.Wrap;
             wrapUV.AddressV = TextureAddressMode.Wrap;
             wrapUV.Filter = TextureFilter.Point;
 
-			SetupTerrain();
-
-            base.Initialize();
+		    base.Initialize();
         }
 
-		void SetupTerrain()
-		{
-			map = new TerrainMap(256, 256, 32, 0, initscaleslider.Value(), magicslider.Value(), scalemodslider.Value(), scalemodmodslider.Value());
-
-			map.CreateTextures(GraphicsDevice);
-			terrainindex = map.GetMaxIndex();
-			terrain = map.GetTextureFromIndex(terrainindex);
 		
-		}
-
 		void SliderChanged(object slider)
 		{
-			SetupTerrain();
 		}
 
         /// <summary>
@@ -148,24 +132,6 @@ namespace HitBoxing
             if (input.JustPressed(Keys.Escape))
             //if( pad.JustReleased(Buttons.A) )
                 this.Exit();
-
-			if (input.JustPressed(Keys.Z))
-			{
-				terrainindex--;
-				if (terrainindex < 0)
-					terrainindex = 0;
-				terrain = map.GetTextureFromIndex(terrainindex);
-			}
-			if (input.JustPressed(Keys.X))
-			{
-				terrainindex++;
-				terrain = map.GetTextureFromIndex(terrainindex);
-			}
-
-			if (input.JustPressed(Keys.A))
-			{
-				SetupTerrain();
-			}
 
 			if (input.JustPressed(Keys.Q))
 			{
@@ -222,9 +188,8 @@ namespace HitBoxing
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.Opaque, wrapUV, null, null, null, cam.Transform());
 
-            //Rectangle src = new Rectangle(0, 0, LevelWidth * BaseUnitSize, LevelHeight * BaseUnitSize);
-            //spriteBatch.Draw(blockTex, new Vector2(-LevelWidth * BaseUnitSize / 2, -LevelHeight * BaseUnitSize), src, Color.White);
-            spriteBatch.Draw(terrain, new Vector2(0, 0), Color.White);
+            Rectangle src = new Rectangle(0, 0, LevelWidth * BaseUnitSize, LevelHeight * BaseUnitSize);
+            spriteBatch.Draw(blockTex, new Vector2(-LevelWidth * BaseUnitSize / 2, -LevelHeight * BaseUnitSize), src, Color.White);
 
 			
 

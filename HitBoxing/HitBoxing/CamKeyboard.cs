@@ -54,7 +54,9 @@ namespace HitBoxing
 
             Position = Position + vPan;
             Zoom += fZoom;
-            
+
+            Position = GetClampedPos();
+
             base.Update();
         }
     }
