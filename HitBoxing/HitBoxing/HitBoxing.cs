@@ -61,13 +61,13 @@ namespace HitBoxing
             input = new InputHelper();
             
 			sliders = new SliderGroup(blockTex, new Vector2(20,20));
-			initscaleslider = new SliderGroup.DoubleSlider(0.1, 0.1, 1.9, 1.0, SliderChanged);
+			initscaleslider = new SliderGroup.DoubleSlider(0.004, 0.004, 1.6, 0.004, SliderChanged);
 			sliders.RegisterValue(initscaleslider);
-			magicslider = new SliderGroup.DoubleSlider(0.1, -1.0, 1.0, 0.0, SliderChanged);
+			magicslider = new SliderGroup.DoubleSlider(0.1, -1.0, 1.0, 0.8, SliderChanged);
 			sliders.RegisterValue(magicslider);
-			scalemodslider = new SliderGroup.DoubleSlider(0.1, 0.1, 1.0, 0.5, SliderChanged);
+			scalemodslider = new SliderGroup.DoubleSlider(0.1, 0.1, 1.9, 1.0, SliderChanged);
 			sliders.RegisterValue(scalemodslider);
-			scalemodmodslider = new SliderGroup.DoubleSlider(0.1, 0.1, 1.9, 1.0, SliderChanged);
+			scalemodmodslider = new SliderGroup.DoubleSlider(0.1, 0.1, 1.9, 0.3, SliderChanged);
 			sliders.RegisterValue(scalemodmodslider);
 
 			sliders.SelectSlider(0);
